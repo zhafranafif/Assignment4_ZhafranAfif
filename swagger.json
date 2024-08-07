@@ -1,0 +1,932 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Laptop Inventory API",
+    "version": "1.0.0",
+    "description": "API documentation for Laptop Inventory application"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/laptop": {
+      "get": {
+        "tags": [
+          "Laptop"
+        ],
+        "summary": "Get list of laptops",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get list laptop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "stock": {
+                            "type": "integer"
+                          },
+                          "brand_id": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 200,
+                    "message": "Success",
+                    "data": [
+                      {
+                        "id": 5,
+                        "name": "MSI Bravo 14",
+                        "price": "9499000.00",
+                        "stock": 7,
+                        "brand_id": 1
+                      }
+                    ],
+                    "transaction_id": "A3022407251025321650"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": 401,
+                    "message": "Success",
+                    "data": {
+                      "message": "No token provided"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 400,
+                    "message": "Laptop not found",
+                    "error": "Not Found",
+                    "transaction_id": "A3022407251045138600"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 500,
+                    "message": "An internal server error occurred",
+                    "error": "Internal Server Error",
+                    "transaction_id": "A3022407251037260380"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Laptop"
+        ],
+        "summary": "Add a new laptop",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "stock": {
+                    "type": "integer"
+                  },
+                  "brand_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name",
+                  "price",
+                  "stock"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Laptop added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "stock": {
+                          "type": "integer"
+                        },
+                        "brand_id": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 200,
+                    "message": "Success",
+                    "data": {
+                      "id": 5,
+                      "name": "MSI Bravo 14",
+                      "price": 9499000,
+                      "stock": 7,
+                      "brand_id": 1
+                    },
+                    "transaction_id": "A3022407251025321650"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 400,
+                    "message": "name must be a string",
+                    "error": "Bad Request",
+                    "transaction_id": "A3022407251056430420"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": 401,
+                    "message": "Success",
+                    "data": {
+                      "message": "No token provided"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 500,
+                    "message": "An internal server error occurred",
+                    "error": "Internal Server Error",
+                    "transaction_id": "A3022407251037260380"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/laptop/{id}": {
+      "delete": {
+        "tags": [
+          "Laptop"
+        ],
+        "summary": "Delete a laptop",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Laptop deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 200,
+                    "message": "Success",
+                    "data": "Successfully delete id 7",
+                    "transaction_id": "A3022407251123142290"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 400,
+                    "message": "\\\"id\\\" must be a number",
+                    "error": "Bad Request",
+                    "transaction_id": "A3022407251109116530"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": 401,
+                    "message": "Success",
+                    "data": {
+                      "message": "No token provided"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 500,
+                    "message": "An internal server error occurred",
+                    "error": "Internal Server Error",
+                    "transaction_id": "A3022407251037260380"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Laptop"
+        ],
+        "summary": "Update a laptop",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "stock": {
+                    "type": "integer"
+                  },
+                  "brand_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name",
+                  "price",
+                  "stock"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Laptop updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "stock": {
+                          "type": "integer"
+                        },
+                        "brand_id": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 200,
+                    "message": "Success",
+                    "data": {
+                      "id": 5,
+                      "name": "MSI Bravo 14",
+                      "price": 9499000,
+                      "stock": 7,
+                      "brand_id": 1
+                    },
+                    "transaction_id": "A3022407251025321650"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 400,
+                    "message": "name must be a string | price,stock,brand_id must be a number",
+                    "error": "Bad Request",
+                    "transaction_id": "A3022407251109116530"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": 401,
+                    "message": "Success",
+                    "data": {
+                      "message": "No token provided"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 500,
+                    "message": "An internal server error occurred",
+                    "error": "Internal Server Error",
+                    "transaction_id": "A3022407251037260380"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/laptop/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Login successful",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": 401,
+                    "message": "Success",
+                    "data": {
+                      "message": "No token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/laptop/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Register successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 200,
+                    "message": "Success",
+                    "data": "Register success",
+                    "transaction_id": "A3022407250953582370"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "transaction_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": 400,
+                    "message": "Username must contain at least 8 characters. Alphabet and number only | Password must be at least 8 characters long and contain at least one alphabet, one number, and one special character, 6-16 characters",
+                    "error": "Bad Request",
+                    "transaction_id": "A3022407251129407940"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": "00000",
+                    "message": "Success",
+                    "data": {
+                      "message": "No token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
